@@ -70,11 +70,10 @@
     }
     state.lang = find(LANGS, lang) ? lang : 'ja';
     if (p.get('lang')) store('obg-lang', state.lang);
-    var from = p.get('from') || load('obg-from');
-    state.from = find(STOPS, from) ? from : STOPS[0].id;
-    if (p.get('from')) store('obg-from', state.from);
+    var from = p.get('from');
+    state.from = find(STOPS, from) ? from : null;
     var to = p.get('to');
-    state.to = find(DESTS, to) ? to : null;
+    state.to = state.from && find(DESTS, to) ? to : null;
     state.opt = 0;
   }
 
@@ -90,9 +89,9 @@
   function push(replace) { history[replace ? 'replaceState' : 'pushState'](null, '', url(false)); }
 
   function mapsUrl(dest) {
-    var stop = find(STOPS, state.from);
+    var stop = state.from ? find(STOPS, state.from) : null;
     var hl = { ja: 'ja', en: 'en', zh: 'zh-CN', tw: 'zh-TW', ko: 'ko' }[state.lang];
-    var q = 'api=1&travelmode=transit&hl=' + hl + '&origin=' + encodeURIComponent(stop.maps);
+    var q = 'api=1&travelmode=transit&hl=' + hl + (stop ? '&origin=' + encodeURIComponent(stop.maps) : '');
     if (dest) q += '&destination=' + encodeURIComponent(dest.maps);
     return 'https://www.google.com/maps/dir/?' + q;
   }
@@ -138,7 +137,7 @@
       return '<button type="button" data-from="' + s.id + '" aria-pressed="' + (s.id === state.from) + '">' + esc(t(s.name)) + '</button>';
     }).join('');
     var dests = DESTS.map(function (d) {
-      return '<button type="button" data-to="' + d.id + '"' + '>' + btnName(d.name) + (d.sub ? '<small>' + esc(t(d.sub)) + '</small>' : '') + '</button>';
+      return '<button type="button" data-to="' + d.id + '"' + (state.from ? '' : ' disabled') + '>' + btnName(d.name) + (d.sub ? '<small>' + esc(t(d.sub)) + '</small>' : '') + '</button>';
     }).join('');
     $app.innerHTML =
       '<h1><a class="title" href="' + esc(topUrl()) + '">' + esc(t(UI.title)) + '</a></h1>' +
@@ -329,7 +328,7 @@
       if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(shareUrl()).then(done, legacy); else legacy();
       return;
     }
-    if (b.hasAttribute('data-from')) { state.from = b.getAttribute('data-from'); store('obg-from', state.from); push(true); render(); }
+    if (b.hasAttribute('data-from')) { state.from = b.getAttribute('data-from'); push(true); render(); }
     else if (b.hasAttribute('data-to')) { state.to = b.getAttribute('data-to'); state.opt = 0; push(false); render(); window.scrollTo(0, 0); }
     else if (b.hasAttribute('data-opt')) { state.opt = +b.getAttribute('data-opt'); render(); }
     else if (b.hasAttribute('data-back')) { state.to = null; push(false); render(); }
