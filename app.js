@@ -39,6 +39,7 @@
     src: { ja: '時刻：のりものNAVI沖縄（{d}時点）', en: 'Times: Norimono NAVI Okinawa (as of {d})', zh: '时刻：Norimono NAVI冲绳（{d}）', tw: '時刻：Norimono NAVI沖繩（{d}）', ko: '시각: 노리모노 NAVI 오키나와 ({d} 기준)' },
     bound: { ja: '{s} 行き', en: 'to {s}', zh: '开往 {s}', tw: '開往 {s}', ko: '{s} 행' },
     how: { ja: '乗り方', en: 'How to ride', zh: '乘车方法', tw: '搭乘方法', ko: '타는 방법' },
+    share: { ja: 'このサービスを共有', en: 'Share this service', zh: '分享本服务', tw: '分享本服務', ko: '이 서비스 공유하기' },
     pending: { ja: 'この組み合わせの案内は準備中です。Googleマップで調べてください。', en: 'This guide is not ready yet. Please search on Google Maps.', zh: '此路线的指南正在准备中。请用Google地图查询。', tw: '此路線的指南正在準備中。請用Google地圖查詢。', ko: '이 경로의 안내는 준비 중입니다. Google 지도에서 검색해 주세요.' }
   };
 
@@ -88,6 +89,24 @@
     return 'https://www.google.com/maps/dir/?' + q;
   }
 
+  function topUrl() { return location.pathname + '?lang=' + state.lang + '&from=' + state.from; }
+  // SNSで広めるためのボタン（サービスのトップを、選んでいる言語で共有する）
+  var ICON = {
+    share: '<path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>',
+    x: '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>',
+    facebook: '<path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>'
+  };
+  function shareHtml() {
+    var u = encodeURIComponent(location.origin + location.pathname + '?lang=' + state.lang);
+    var tx = encodeURIComponent(t(UI.title));
+    var svg = function (k) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[k] + '</svg>'; };
+    return '<div class="share"><span>' + esc(t(UI.share)) + '</span><div>' +
+      (navigator.share ? '<button type="button" data-share aria-label="' + esc(t(UI.share)) + '">' + svg('share') + '</button>' : '') +
+      '<a href="https://twitter.com/intent/tweet?url=' + u + '&text=' + tx + '" target="_blank" rel="noopener" aria-label="X">' + svg('x') + '</a>' +
+      '<a href="https://www.facebook.com/sharer/sharer.php?u=' + u + '" target="_blank" rel="noopener" aria-label="Facebook">' + svg('facebook') + '</a>' +
+      '<a class="line" href="https://social-plugins.line.me/lineit/share?url=' + u + '" target="_blank" rel="noopener" aria-label="LINE">LINE</a>' +
+      '</div></div>';
+  }
   function renderLangs() {
     $langs.innerHTML = LANGS.map(function (l) {
       return '<button type="button" data-lang="' + l.id + '" lang="' + l.html + '" aria-pressed="' + (l.id === state.lang) + '">' + l.label + '</button>';
@@ -267,7 +286,9 @@
   function render() {
     renderLangs();
     if (state.to) renderRoute(); else renderSelect();
-    $app.insertAdjacentHTML('beforeend', '<footer class="foot">' + esc(t(UI.contact)) + '<a href="mailto:info@lunaety.com">info@lunaety.com</a><br>© 2026 Lunaety</footer>');
+    // サイトの名前（どの画面からもトップへ）
+    if (state.to) $app.insertAdjacentHTML('afterbegin', '<a class="home" href="' + esc(topUrl()) + '">' + esc(t(UI.title)) + '</a>');
+    $app.insertAdjacentHTML('beforeend', '<footer class="foot">' + shareHtml() + esc(t(UI.contact)) + '<a href="mailto:info@lunaety.com">info@lunaety.com</a><br>© 2026 Lunaety</footer>');
   }
 
   $langs.addEventListener('click', function (e) {
@@ -277,6 +298,7 @@
   });
   $app.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
+    if (b.hasAttribute('data-share')) { navigator.share({ title: t(UI.title), url: location.origin + location.pathname + '?lang=' + state.lang }).catch(function () {}); return; }
     if (b.hasAttribute('data-from')) { state.from = b.getAttribute('data-from'); store('obg-from', state.from); push(true); render(); }
     else if (b.hasAttribute('data-to')) { state.to = b.getAttribute('data-to'); state.opt = 0; push(false); render(); window.scrollTo(0, 0); }
     else if (b.hasAttribute('data-opt')) { state.opt = +b.getAttribute('data-opt'); render(); }
