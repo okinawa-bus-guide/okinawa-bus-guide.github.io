@@ -173,14 +173,12 @@
   // 那覇バス・琉球バス交通「路線バスの乗り方」に合わせる（OKICAは乗るときに整理券発行器の横、降りるときに運賃箱の読取部にタッチ。両替はバスが止まっているときに）
   var STEPS = {
     after: [
-      { ja: 'バスの前に出ている番号をたしかめて乗ります。', en: 'Check the number on the front of the bus and get on.', zh: '确认车头显示的号码后上车。', tw: '確認車頭顯示的號碼後上車。', ko: '버스 앞에 표시된 번호를 확인하고 탑니다.' },
-      { ja: 'バスに乗ったら整理券を取ります（OKICAならタッチします）。', en: 'When you get on, take a numbered ticket (with OKICA, tap the card instead).', zh: '上车后取整理券（使用OKICA则刷卡）。', tw: '上車後取整理券（使用OKICA則刷卡）。', ko: '버스에 타면 정리권을 뽑습니다(OKICA는 카드를 터치합니다).' },
+      { ja: 'バスに乗ったら整理券を取ります（OKICAの場合は、タッチします）。', en: 'When you get on, take a numbered ticket (with OKICA, tap the card instead).', zh: '上车后取整理券（使用OKICA则刷卡）。', tw: '上車後取整理券（使用OKICA則刷卡）。', ko: '버스에 타면 정리권을 뽑습니다(OKICA는 카드를 터치합니다).' },
       { ja: '降りる停留所が近づいたら、降車ボタンを押します。', en: 'Press the stop button before your stop.', zh: '快到下车站时，按下车铃。', tw: '快到下車站時，按下車鈴。', ko: '내릴 정류장이 가까워지면 하차 버튼을 누릅니다.' },
-      { ja: '降りるときに、運賃を整理券と一緒に運賃箱に入れます（OKICAなら運賃箱の読取部にタッチします）。現金はお釣りが出ないので、バスが止まっているときに車内で両替しましょう。', en: 'When you get off, put the fare and the ticket into the fare box (with OKICA, tap the reader on the fare box). No change is given, so change money on the bus while it is stopped.', zh: '下车时，将车费和整理券一起投入收费箱（使用OKICA则在收费箱的读卡处刷卡）。现金不找零，请在巴士停车时于车内兑换零钱。', tw: '下車時，將車資和整理券一起投入收費箱（使用OKICA則在收費箱的讀卡處刷卡）。現金不找零，請在公車停車時於車內兌換零錢。', ko: '내릴 때 요금을 정리권과 함께 요금함에 넣습니다(OKICA는 요금함의 단말기에 터치합니다). 거스름돈이 없으니 버스가 서 있을 때 차내에서 환전하세요.' }
+      { ja: '降りるときに、運賃を整理券と一緒に運賃箱に入れます（OKICAの場合は、運賃箱の読取部にタッチします）。現金はお釣りが出ないので、バスが止まっているときに車内で両替しましょう。', en: 'When you get off, put the fare and the ticket into the fare box (with OKICA, tap the reader on the fare box). No change is given, so change money on the bus while it is stopped.', zh: '下车时，将车费和整理券一起投入收费箱（使用OKICA则在收费箱的读卡处刷卡）。现金不找零，请在巴士停车时于车内兑换零钱。', tw: '下車時，將車資和整理券一起投入收費箱（使用OKICA則在收費箱的讀卡處刷卡）。現金不找零，請在公車停車時於車內兌換零錢。', ko: '내릴 때 요금을 정리권과 함께 요금함에 넣습니다(OKICA는 요금함의 단말기에 터치합니다). 거스름돈이 없으니 버스가 서 있을 때 차내에서 환전하세요.' }
     ],
     before: [
-      { ja: 'バスの前に出ている番号をたしかめて乗ります。', en: 'Check the number on the front of the bus and get on.', zh: '确认车头显示的号码后上车。', tw: '確認車頭顯示的號碼後上車。', ko: '버스 앞에 표시된 번호를 확인하고 탑니다.' },
-      { ja: 'バスに乗るときに運賃を払います（OKICAならタッチします）。現金はお釣りが出ないので、車内で両替しましょう。', en: 'Pay the fare when you get on (with OKICA, tap the card). No change is given, so use the changer on the bus.', zh: '上车时付车费（使用OKICA则刷卡）。现金不找零，请在车内兑换零钱。', tw: '上車時付車資（使用OKICA則刷卡）。現金不找零，請在車內兌換零錢。', ko: '버스에 탈 때 요금을 냅니다(OKICA는 카드를 터치합니다). 거스름돈이 없으니 차내에서 환전하세요.' },
+      { ja: 'バスに乗るときに運賃を払います（OKICAの場合は、タッチします）。現金はお釣りが出ないので、車内で両替しましょう。', en: 'Pay the fare when you get on (with OKICA, tap the card). No change is given, so use the changer on the bus.', zh: '上车时付车费（使用OKICA则刷卡）。现金不找零，请在车内兑换零钱。', tw: '上車時付車資（使用OKICA則刷卡）。現金不找零，請在車內兌換零錢。', ko: '버스에 탈 때 요금을 냅니다(OKICA는 카드를 터치합니다). 거스름돈이 없으니 차내에서 환전하세요.' },
       { ja: '降りる停留所が近づいたら、降車ボタンを押します。', en: 'Press the stop button before your stop.', zh: '快到下车站时，按下车铃。', tw: '快到下車站時，按下車鈴。', ko: '내릴 정류장이 가까워지면 하차 버튼을 누릅니다.' },
       { ja: 'バスが止まったら、そのまま降ります。', en: 'Get off when the bus stops.', zh: '巴士停稳后下车。', tw: '公車停穩後下車。', ko: '버스가 서면 그대로 내립니다.' }
     ]
