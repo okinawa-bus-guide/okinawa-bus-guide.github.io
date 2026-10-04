@@ -39,7 +39,7 @@
     src: { ja: '時刻：のりものNAVI沖縄（{d}時点）', en: 'Times: Norimono NAVI Okinawa (as of {d})', zh: '时刻：Norimono NAVI冲绳（{d}）', tw: '時刻：Norimono NAVI沖繩（{d}）', ko: '시각: 노리모노 NAVI 오키나와 ({d} 기준)' },
     bound: { ja: '{s} 行き', en: 'to {s}', zh: '开往 {s}', tw: '開往 {s}', ko: '{s} 행' },
     how: { ja: '乗り方', en: 'How to ride', zh: '乘车方法', tw: '搭乘方法', ko: '타는 방법' },
-    shareSvc: { ja: 'このサービスを共有', en: 'Share this service', zh: '分享本服务', tw: '分享本服務', ko: '이 서비스 공유하기' },
+    shareSvc: { ja: 'このサービスを共有する', en: 'Share this service', zh: '分享本服务', tw: '分享本服務', ko: '이 서비스 공유하기' },
     copy: { ja: 'リンクをコピー', en: 'Copy link', zh: '复制链接', tw: '複製連結', ko: '링크 복사' },
     copied: { ja: 'リンクをコピーしました。', en: 'Link copied.', zh: '链接已复制。', tw: '連結已複製。', ko: '링크를 복사했습니다.' },
     copiedWechat: { ja: 'リンクをコピーしました。WeChatに貼り付けて送ってください。', en: 'Link copied. Paste it in WeChat to send.', zh: '链接已复制，请粘贴到微信发送。', tw: '連結已複製，請貼到微信傳送。', ko: '링크를 복사했습니다. 위챗에 붙여넣어 보내세요.' },
